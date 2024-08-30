@@ -4,6 +4,8 @@ import pandas as pd
 #import scikit-learn
 #from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 #import tensorflow as tf
+import tensorflow
+from tensorflow.keras.models import load_model
 import pickle
 
 #Loading the model:
