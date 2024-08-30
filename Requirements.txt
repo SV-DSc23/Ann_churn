@@ -3,5 +3,6 @@ pandas
 tensorflow==2.15.0
 matplotlib
 scikit-learn
+sklearn
 tensorboard
 streamlit
