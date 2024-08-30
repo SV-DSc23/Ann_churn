@@ -6,7 +6,7 @@ import tensorflow as tf
 import pickle
 
 #Loading the model:
-model = load_model("model.h5")
+model = tf.keras.models.load_model("model.h5")
 
 #Loading the encoders:
 with open ("le_gender.pkl", 'rb') as file:
@@ -25,7 +25,7 @@ st.title("Customer Churn Prediction")
 #Useing input
 CreditScore = st.number_input("CreditScore")
 Geography = st.selectbox("Geography", ohe_geo.categories_[0])
-Gender = st.select_box("Gender", le_gender.classes_)
+Gender = st.selectbox("Gender", le_gender.classes_)
 Age = st.slider("Age", 18,92)
 Tenure = st.slider("Tenure", 0,11)
 Balance = st.number_input("Balance")
@@ -49,28 +49,22 @@ input_data = pd.DataFrame({
 })
 
 #ohe geography
-geo_ohencoded = ohe_geo.transform(input_data[[Geography]]).toarray()
-geo_ohencoded_df = pd.DataFrame(
-    geo_ohencoded, 
-    columns = ohe_geo.get_feature_names_out(["Geography"])
-    )
+geo_ohencoded = ohe_geo.transform([[Geography]]).toarray()
+geo_ohencoded_df = pd.DataFrame(geo_ohencoded, columns = ohe_geo.get_feature_names_out(["Geography"]))
 
 #Concatinating encoded Geography data
-input_data = pd.concat(
-    [input_data.reset_index(drop=True), geo_ohencoded_df], axis=1
-    )
+input_data = pd.concat([input_data.drop("Geography", axis=1), geo_ohencoded_df], axis=1)
 
 #Scaling input_data
-scaled_input = scale.transform(input_data)
+scaled_input = scaler.transform(input_data)
 
 #Predict churn
-prediction = modl.predict(scaled_input)
+prediction = model.predict(scaled_input)
 prediction_prob = prediction[0][0]
 
-def churn(x):
-    if x > 0.5:
-        print(f"Prediction probability: {x}\nThe customer is likely to CHURN.")
-    else:
-        print(f"Prediction probability: {x}\nThe customer is NOT likely to churn.")
+st.write(f"Churn Probability: {prediction_prob:.2f}")
 
-
+if prediction_prob > 0.5:
+    st.write('The customer is likely to CHURN.')
+else:
+    st.write('The customer is NOT likely to churn.')
