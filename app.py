@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 #from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-import tensorflow as tf
+#import tensorflow as tf
 import pickle
 
 #Loading the model:
