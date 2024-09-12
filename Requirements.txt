@@ -1,9 +1,6 @@
 numpy
 pandas
-tensorflow==2.15
-keras==2.15.0
-ml-dtypes==0.2.0
-tensorboard==2.15.0
+tensorflow==2.9
 matplotlib
 scikit-learn
 tensorboard
